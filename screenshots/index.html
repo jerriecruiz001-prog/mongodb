@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>MongoDB CRUD Checkpoint</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 14px;
+    padding: 32px;
+  }
+  h1 {
+    color: #58a6ff;
+    font-size: 20px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 12px;
+  }
+  .section {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: #21262d;
+    padding: 10px 16px;
+    color: #79c0ff;
+    font-weight: bold;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .badge {
+    background: #388bfd26;
+    color: #79c0ff;
+    border: 1px solid #388bfd;
+    border-radius: 12px;
+    padding: 1px 8px;
+    font-size: 12px;
+  }
+  .badge.green { background: #23863626; color: #3fb950; border-color: #238636; }
+  .badge.orange { background: #d2953126; color: #e3b341; border-color: #d29531; }
+  .badge.red { background: #da364226; color: #f85149; border-color: #da3642; }
+  pre {
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+  .key   { color: #79c0ff; }
+  .str   { color: #a5d6ff; }
+  .num   { color: #f2cc60; }
+  .oid   { color: #bc8cff; }
+  .label { color: #8b949e; }
+  .success { color: #3fb950; font-weight: bold; }
+  .info   { color: #58a6ff; }
+  .empty  { color: #8b949e; font-style: italic; }
+
+  .cmd-line {
+    background: #0d1117;
+    border-left: 3px solid #388bfd;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    color: #8b949e;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<h1>MongoDB CRUD Checkpoint — <span style="color:#3fb950">contact.contactlist</span></h1>
+
+<!-- SETUP -->
+<div class="section">
+  <div class="section-header">
+    <span class="badge green">INSERT</span>
+    Setup — Create database &amp; insert 5 documents
+  </div>
+  <pre><span class="cmd-line">use("contact");  db.contactlist.drop();  db.contactlist.insertMany([...])</span>
+<span class="success">✅ Inserted 5 documents</span>
+
+<span class="label">Documents inserted:</span>
+  <span class="key">{ lastName: </span><span class="str">"Ben"</span><span class="key">,    firstName: </span><span class="str">"Moris"</span><span class="key">,     email: </span><span class="str">"ben@gmail.com"</span><span class="key">,      age: </span><span class="num">26</span> <span class="key">}</span>
+  <span class="key">{ lastName: </span><span class="str">"Kefi"</span><span class="key">,   firstName: </span><span class="str">"Seif"</span><span class="key">,      email: </span><span class="str">"kefi@gmail.com"</span><span class="key">,     age: </span><span class="num">15</span> <span class="key">}</span>
+  <span class="key">{ lastName: </span><span class="str">"Emilie"</span><span class="key">, firstName: </span><span class="str">"brouge"</span><span class="key">,    email: </span><span class="str">"emilie.b@gmail.com"</span><span class="key">, age: </span><span class="num">40</span> <span class="key">}</span>
+  <span class="key">{ lastName: </span><span class="str">"Alex"</span><span class="key">,   firstName: </span><span class="str">"brown"</span><span class="key">,                                   age: </span><span class="num">4</span>  <span class="key">}</span>
+  <span class="key">{ lastName: </span><span class="str">"Denzel"</span><span class="key">, firstName: </span><span class="str">"Washington"</span><span class="key">,                              age: </span><span class="num">3</span>  <span class="key">}</span></pre>
+</div>
+
+<!-- QUERY 1 -->
+<div class="section">
+  <div class="section-header">
+    <span class="badge">FIND</span>
+    1. Display all contacts
+  </div>
+  <pre><span class="cmd-line">db.contactlist.find()</span>
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795a')</span>,
+  <span class="key">lastName</span>: <span class="str">'Ben'</span>, <span class="key">firstName</span>: <span class="str">'Moris'</span>, <span class="key">email</span>: <span class="str">'ben@gmail.com'</span>, <span class="key">age</span>: <span class="num">26</span>
+}
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795b')</span>,
+  <span class="key">lastName</span>: <span class="str">'Kefi'</span>, <span class="key">firstName</span>: <span class="str">'Seif'</span>, <span class="key">email</span>: <span class="str">'kefi@gmail.com'</span>, <span class="key">age</span>: <span class="num">15</span>
+}
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795c')</span>,
+  <span class="key">lastName</span>: <span class="str">'Emilie'</span>, <span class="key">firstName</span>: <span class="str">'brouge'</span>, <span class="key">email</span>: <span class="str">'emilie.b@gmail.com'</span>, <span class="key">age</span>: <span class="num">40</span>
+}
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795d')</span>,
+  <span class="key">lastName</span>: <span class="str">'Alex'</span>, <span class="key">firstName</span>: <span class="str">'brown'</span>, <span class="key">age</span>: <span class="num">4</span>
+}
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795e')</span>,
+  <span class="key">lastName</span>: <span class="str">'Denzel'</span>, <span class="key">firstName</span>: <span class="str">'Washington'</span>, <span class="key">age</span>: <span class="num">3</span>
+}</pre>
+</div>
+
+<!-- QUERY 2 -->
+<div class="section">
+  <div class="section-header">
+    <span class="badge">FIND</span>
+    2. Display one contact by ID
+  </div>
+  <pre><span class="cmd-line">db.contactlist.findOne({ _id: ObjectId('6a1eb9d9eb5c2a3e2620795a') })</span>
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795a')</span>,
+  <span class="key">lastName</span>: <span class="str">'Ben'</span>,
+  <span class="key">firstName</span>: <span class="str">'Moris'</span>,
+  <span class="key">email</span>: <span class="str">'ben@gmail.com'</span>,
+  <span class="key">age</span>: <span class="num">26</span>
+}</pre>
+</div>
+
+<!-- QUERY 3 -->
+<div class="section">
+  <div class="section-header">
+    <span class="badge">FIND</span>
+    3. Contacts with age &gt; 18
+  </div>
+  <pre><span class="cmd-line">db.contactlist.find({ age: { $gt: 18 } })</span>
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795a')</span>,
+  <span class="key">lastName</span>: <span class="str">'Ben'</span>, <span class="key">firstName</span>: <span class="str">'Moris'</span>, <span class="key">email</span>: <span class="str">'ben@gmail.com'</span>, <span class="key">age</span>: <span class="num">26</span>
+}
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795c')</span>,
+  <span class="key">lastName</span>: <span class="str">'Emilie'</span>, <span class="key">firstName</span>: <span class="str">'brouge'</span>, <span class="key">email</span>: <span class="str">'emilie.b@gmail.com'</span>, <span class="key">age</span>: <span class="num">40</span>
+}</pre>
+</div>
+
+<!-- QUERY 4 -->
+<div class="section">
+  <div class="section-header">
+    <span class="badge">FIND</span>
+    4. Age &gt; 18 AND name containing "ah"
+  </div>
+  <pre><span class="cmd-line">db.contactlist.find({ age: { $gt: 18 }, $or: [{ firstName: /ah/i }, { lastName: /ah/i }] })</span>
+<span class="empty">// No documents match — none of the contacts over 18 have "ah" in their name.</span></pre>
+</div>
+
+<!-- UPDATE -->
+<div class="section">
+  <div class="section-header">
+    <span class="badge orange">UPDATE</span>
+    5. Change Kefi Seif → Kefi Anis
+  </div>
+  <pre><span class="cmd-line">db.contactlist.updateOne({ lastName: "Kefi", firstName: "Seif" }, { $set: { firstName: "Anis" } })</span>
+<span class="info">Matched: 1 | Modified: 1</span>
+
+<span class="label">Updated document:</span>
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795b')</span>,
+  <span class="key">lastName</span>: <span class="str">'Kefi'</span>,
+  <span class="key">firstName</span>: <span class="str">'Anis'</span>,   <span class="label">← was "Seif"</span>
+  <span class="key">email</span>: <span class="str">'kefi@gmail.com'</span>,
+  <span class="key">age</span>: <span class="num">15</span>
+}</pre>
+</div>
+
+<!-- DELETE -->
+<div class="section">
+  <div class="section-header">
+    <span class="badge red">DELETE</span>
+    6. Delete contacts with age &lt; 5
+  </div>
+  <pre><span class="cmd-line">db.contactlist.deleteMany({ age: { $lt: 5 } })</span>
+<span class="info">Deleted: 2 document(s)</span>
+
+<span class="label">Removed:</span>
+  <span class="key">{ lastName: </span><span class="str">'Alex'</span><span class="key">,   firstName: </span><span class="str">'brown'</span><span class="key">,       age: </span><span class="num">4</span> <span class="key">}</span>
+  <span class="key">{ lastName: </span><span class="str">'Denzel'</span><span class="key">, firstName: </span><span class="str">'Washington'</span><span class="key">, age: </span><span class="num">3</span> <span class="key">}</span></pre>
+</div>
+
+<!-- QUERY 7 -->
+<div class="section">
+  <div class="section-header">
+    <span class="badge">FIND</span>
+    7. All contacts after update &amp; delete
+  </div>
+  <pre><span class="cmd-line">db.contactlist.find()</span>
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795a')</span>,
+  <span class="key">lastName</span>: <span class="str">'Ben'</span>, <span class="key">firstName</span>: <span class="str">'Moris'</span>, <span class="key">email</span>: <span class="str">'ben@gmail.com'</span>, <span class="key">age</span>: <span class="num">26</span>
+}
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795b')</span>,
+  <span class="key">lastName</span>: <span class="str">'Kefi'</span>, <span class="key">firstName</span>: <span class="str">'Anis'</span>, <span class="key">email</span>: <span class="str">'kefi@gmail.com'</span>, <span class="key">age</span>: <span class="num">15</span>
+}
+{
+  <span class="key">_id</span>: <span class="oid">ObjectId('6a1eb9d9eb5c2a3e2620795c')</span>,
+  <span class="key">lastName</span>: <span class="str">'Emilie'</span>, <span class="key">firstName</span>: <span class="str">'brouge'</span>, <span class="key">email</span>: <span class="str">'emilie.b@gmail.com'</span>, <span class="key">age</span>: <span class="num">40</span>
+}
+
+<span class="success">✅ Checkpoint complete!</span></pre>
+</div>
+
+</body>
+</html>
